@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twin Harbours — Spot the Difference</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header id="hud">
+    <div class="hud-left">
+      <div id="game-title">⚓ Twin Harbours</div>
+      <div id="level-name">Level 1 · Dusk Harbour</div>
+    </div>
+    <div class="hud-mid">
+      <div id="found-counter" title="Differences found">
+        <span id="found-dots"></span>
+        <span id="found-text">0 / 7 found</span>
+      </div>
+      <div id="timer-wrap" title="Time left">
+        <div id="timer-bar"></div>
+        <span id="timer-text">2:00</span>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div id="score-box" title="Score">★ <span id="score-text">0</span></div>
+      <button id="hint-btn" type="button" title="Hint (H)">💡 Hint <span id="hint-count">3</span></button>
+      <button id="mute-btn" type="button" title="Sound (M)">🔊</button>
+    </div>
+  </header>
+
+  <main id="boards">
+    <figure class="panel" id="panel-left">
+      <canvas id="canvas-left" width="560" height="420"></canvas>
+      <figcaption>Harbour A</figcaption>
+    </figure>
+    <div id="vs-badge">VS</div>
+    <figure class="panel" id="panel-right">
+      <canvas id="canvas-right" width="560" height="420"></canvas>
+      <figcaption>Harbour B</figcaption>
+    </figure>
+  </main>
+
+  <footer id="level-bar">
+    <div id="level-dots"></div>
+    <div id="message">Find the differences — click on either picture. A wrong click costs 5 seconds.</div>
+  </footer>
+
+  <div id="overlay" class="hidden">
+    <div id="overlay-card">
+      <h1 id="overlay-title"></h1>
+      <p id="overlay-sub"></p>
+      <div id="overlay-stars"></div>
+      <div id="overlay-stats"></div>
+      <button id="overlay-btn" type="button"></button>
+      <p id="overlay-hint"></p>
+    </div>
+  </div>
+</div>
+<script type="module" src="main.js"></script>
+</body>
+</html>

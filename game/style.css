@@ -1,0 +1,130 @@
+/* Twin Harbours — Spot the Difference. Deep-navy harbour night, brass and lantern gold. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0b1c33;
+  --navy-2: #10294a;
+  --panel: #0e2440;
+  --gold: #f5c542;
+  --gold-soft: #ffd97a;
+  --cream: #f4ead2;
+  --ink: #dbe7f5;
+  --muted: #8fa8c4;
+  --red: #ff6b5e;
+  --green: #7be0a3;
+  --ring: #ffd23f;
+}
+html, body { height: 100%; }
+body {
+  background: radial-gradient(1200px 700px at 50% -10%, #1b3a63 0%, var(--navy) 55%, #071222 100%);
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#app { width: min(1280px, 100%); padding: 14px 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ---- HUD ---- */
+#hud {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: linear-gradient(180deg, var(--navy-2), var(--panel));
+  border: 1px solid #24466e; border-radius: 14px; padding: 10px 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
+}
+#game-title { font-size: 24px; font-weight: 800; letter-spacing: .5px; color: var(--gold); text-shadow: 0 2px 0 rgba(0,0,0,.4); }
+#level-name { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.hud-mid { display: flex; align-items: center; gap: 18px; flex: 1; justify-content: center; }
+#found-counter { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; }
+#found-dots { display: flex; gap: 4px; }
+#found-dots .dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: transparent; border: 2px solid var(--muted);
+}
+#found-dots .dot.on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold); }
+#timer-wrap {
+  position: relative; width: 210px; height: 26px; border-radius: 13px;
+  background: #071222; border: 1px solid #24466e; overflow: hidden;
+}
+#timer-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #2f9e6e, #7be0a3); transition: width .2s linear, background .3s; }
+#timer-wrap.low #timer-bar { background: linear-gradient(90deg, #c0392b, var(--red)); }
+#timer-wrap.low { animation: pulse 1s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 4px rgba(255, 107, 94, .25); } }
+#timer-text {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+.hud-right { display: flex; align-items: center; gap: 10px; }
+#score-box { font-size: 18px; font-weight: 800; color: var(--gold-soft); min-width: 86px; text-align: right; }
+button {
+  font-family: inherit; cursor: pointer; border: 1px solid #2c5379; border-radius: 10px;
+  background: linear-gradient(180deg, #1d4066, #14304e); color: var(--cream);
+  padding: 8px 12px; font-size: 14px; font-weight: 700;
+}
+button:hover { border-color: var(--gold); color: var(--gold-soft); }
+button:disabled { opacity: .45; cursor: default; }
+
+/* ---- Boards ---- */
+#boards { display: flex; align-items: stretch; justify-content: center; gap: 14px; }
+.panel {
+  background: var(--panel); border: 1px solid #24466e; border-radius: 14px; padding: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+}
+.panel canvas {
+  display: block; width: 560px; max-width: 100%; height: auto;
+  border-radius: 8px; cursor: crosshair; background: #06101f;
+}
+.panel figcaption { text-align: center; padding-top: 8px; font-size: 13px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+#vs-badge {
+  align-self: center; width: 46px; height: 46px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 60%, #b98a1d);
+  color: #23180a; font-weight: 900; font-size: 17px;
+  box-shadow: 0 0 0 4px rgba(245, 197, 66, .18), 0 6px 18px rgba(0,0,0,.45);
+}
+
+/* ---- Footer ---- */
+#level-bar {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--panel); border: 1px solid #24466e; border-radius: 12px; padding: 9px 16px;
+}
+#level-dots { display: flex; gap: 7px; }
+#level-dots .ldot {
+  width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--muted); background: transparent;
+}
+#level-dots .ldot.done { background: var(--green); border-color: var(--green); }
+#level-dots .ldot.now { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 9px var(--gold); }
+#message { font-size: 14px; color: var(--muted); }
+#message b { color: var(--gold-soft); }
+
+/* ---- Overlay screens ---- */
+#overlay {
+  position: fixed; inset: 0; background: rgba(4, 10, 20, .78);
+  display: flex; align-items: center; justify-content: center; z-index: 10;
+  backdrop-filter: blur(2px);
+}
+#overlay.hidden { display: none; }
+#overlay-card {
+  width: min(560px, 92vw); text-align: center; padding: 34px 30px 28px;
+  background: linear-gradient(180deg, #14304e, #0b1c33);
+  border: 1px solid #2c5379; border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
+}
+#overlay-title { font-size: 38px; color: var(--gold); letter-spacing: .5px; text-shadow: 0 3px 0 rgba(0,0,0,.4); }
+#overlay-sub { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--ink); }
+#overlay-stars { font-size: 34px; letter-spacing: 6px; margin-top: 14px; color: var(--gold); min-height: 40px; }
+#overlay-stats { margin-top: 8px; font-size: 15px; line-height: 1.7; color: var(--cream); }
+#overlay-stats b { color: var(--gold-soft); }
+#overlay-btn {
+  margin-top: 20px; font-size: 18px; padding: 12px 30px; border-radius: 12px;
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold)); color: #23180a; border: none;
+  box-shadow: 0 6px 0 #a87f14, 0 10px 24px rgba(0,0,0,.4);
+}
+#overlay-btn:hover { color: #23180a; filter: brightness(1.07); }
+#overlay-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #a87f14; }
+#overlay-hint { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+@media (max-width: 1220px) {
+  .panel canvas { width: 46vw; }
+  #game-title { font-size: 19px; }
+}
